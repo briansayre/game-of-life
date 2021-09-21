@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * This function initializes a one-dimensional cellular automaton to 
  * the quiescent, all zero state. The 1DCA is stored as an array of unsigned char type.

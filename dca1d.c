@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <dca1d.h>
 
-void main() {
+int main() {
     int n = 25;
     unsigned char a[n];
     init1DCA(n, a); // initialize the 1DCA
@@ -14,6 +14,7 @@ void main() {
         }
     }
     display1DCA(a, n); // display the 1DCA to the console
+    return 0;
 }
 
 /**
