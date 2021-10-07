@@ -42,12 +42,13 @@ int main(int argc, char *argv[]) {
     c->wrap = (strcmp(argv[3], "wrap") == 0);
 
     init1DCA(c, initState);
-    //set1DCACell(c, 9, '1');
+    set1DCACell(c, 9, '0');
 
     for (int i = 0; i < numSteps; i++) {
         display1DCA(c);
         stepCA(c, rule110, c->wrap);
     }
-
+    free(c->cells);
+    free(c);
     return 0;
 }

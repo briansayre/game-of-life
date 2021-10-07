@@ -45,3 +45,8 @@ void stepCA(struct ca_data *data, unsigned char (*func)(struct ca_data *d, int i
  * Validates the command line arguments of main.c
 **/
 int validArgs(char *argv[]);
+
+/** 
+ * Displays error messages and exits program.
+**/
+void error(char* message, int code);
