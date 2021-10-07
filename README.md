@@ -1,11 +1,21 @@
-# Project 1A - Brian Sayre
- This program allows the client to initialize a one-dimensional cellular automaton, set value with the 1DCA, and display the 1DCA on the console.
-## Compiling and running dca1d.c
+# Project 1B - Brian Sayre
+ This program allows the client to initialize a one-dimensional cellular automaton, set values in the 1DCA, and display the 1DCA on the console, and apply rules to the 1DCA.  
+ 
+## Compiling and running main.c
 In the project's root directory run the following command:  
 ```$ make```  
 Expected output:  
 ```
-gcc dca1d.c -o odca -I.
-./odca
-2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 
+gcc ca.c main.c -o odca -I.
+./odca 10 2 wrap 0 10
+0 0 0 0 0 0 0 0 0 1
+0 0 0 0 0 0 0 0 1 1
+0 0 0 0 0 0 0 1 1 1
+0 0 0 0 0 0 1 1 0 1
+0 0 0 0 0 1 1 1 1 1
+0 0 0 0 1 1 0 0 0 1
+0 0 0 1 1 1 0 0 1 1
+0 0 1 1 0 1 0 1 1 1
+0 1 1 1 1 1 1 1 0 1
+1 1 0 0 0 0 0 1 1 1
 ```

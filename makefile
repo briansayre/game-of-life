@@ -1,3 +1,4 @@
-make: dca1d.c dca1d.h
-	gcc dca1d.c -o odca -I.
-	./odca
+ocda:	ca.c ca.h main.c 
+	gcc ca.c main.c -o odca -I.
+	# numCells numStates wrap initValue steps
+	./odca 10 2 wrap 0 10
