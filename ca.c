@@ -8,6 +8,9 @@
 #define MIN_CELLS 10
 #define MAX_CELLS 100
 
+/**
+ *  The return value is a pointer to a ca_data structure initialized as such
+**/
 struct ca_data *create1DCA(int length, unsigned char value) {
     struct ca_data *c = malloc(sizeof(struct ca_data));
     if (c == NULL) error("Failed to initialize ca_data struct", 1);
@@ -31,7 +34,7 @@ void init1DCA(struct ca_data *data, int value) {
     srand(time(0));
     for (int i = 0; i < data->length; i++) {
         if (value == -1) {
-            data->cells[i] = rand() % data->numStates + '0';
+            data->cells[i] = (rand() % data->numStates) + '0';
         } else {
             data->cells[i] = value + '0';  // initialize to 'value'
         }
@@ -43,7 +46,7 @@ void init1DCA(struct ca_data *data, int value) {
 **/
 int set1DCACell(struct ca_data *data, unsigned int index, unsigned char value) {
     if (data == NULL) error("NULL data argument", 1);
-    if (value-48 > data->numStates-1 || value-48 < 0) error("Invalid value argument", 1);
+    if (value - 48 > data->numStates - 1 || value - 48 < 0) error("Invalid value argument", 1);
     if (index < 0 || index > data->length - 1) error("Invalid index argument", 1);
     data->cells[index] = value;  // set value
     return 1;
@@ -55,13 +58,13 @@ int set1DCACell(struct ca_data *data, unsigned int index, unsigned char value) {
 unsigned char get1DCACell(struct ca_data *data, unsigned int index) {
     if (data == NULL) error("NULL data argument", 1);
     if (index < 0 || index > data->length - 1) {
-        if (data->wrap) {
+        if (data->wrap) {  // wrap and out of bounds
             if (index < 0) return data->cells[data->length + (index % data->length)];
             return data->cells[index % data->length];
         }
-        return data->intialState;
+        return data->intialState;  // no wrap and out of bounds
     }
-    return data->cells[index];
+    return data->cells[index];  // in bounds
 }
 
 /**
@@ -69,9 +72,18 @@ unsigned char get1DCACell(struct ca_data *data, unsigned int index) {
  * a space and terminated with an end of line character (\n)..
 **/
 void display1DCA(struct ca_data *data) {
+    int blocks = 0;
     if (data == NULL) error("NULL data argument", 1);
     for (int i = 0; i < data->length; i++) {
-        printf("%c ", data->cells[i]);  // print the value at arr with space
+        if (blocks) {  // prints using blocks for better visualization
+            if (data->cells[i] == '0') {
+                printf("  ");
+            } else {
+                printf("■ ");
+            }
+        } else {  // prints the state normally
+            printf("%c ", data->cells[i]);
+        }
     }
     printf("\n");
 }
@@ -82,12 +94,12 @@ void display1DCA(struct ca_data *data) {
 **/
 void stepCA(struct ca_data *data, unsigned char (*func)(struct ca_data *d, int index), int flag) {
     if (data == NULL) error("NULL data argument", 1);
-    unsigned char *nextStep = malloc(data->length * sizeof(unsigned char));
+    unsigned char *nextStep = malloc(data->length * sizeof(unsigned char));  // the next step of cells
     if (nextStep == NULL) error("Failed to initialize nextStep", 1);
     for (int i = 0; i < data->length; i++) {
         nextStep[i] = func(data, i);
     }
-    free(data->cells);
+    free(data->cells);  // free old cells
     data->cells = nextStep;
 }
 
@@ -100,12 +112,17 @@ int validArgs(char *argv[]) {
     int initState = atoi(argv[4]);
     int numSteps = atoi(argv[5]);
     if (numCells < MIN_CELLS || numCells > MAX_CELLS) error("Invalid number of cells argument", 1);
+    if (numStates < 1) error("Invalid number of states argument", 1);
     if (strcmp(argv[3], "wrap") != 0 && strcmp(argv[3], "nowrap") != 0) error("Invalid wrap argument", 1);
     if (initState < -1 || initState > numStates - 1) error("Invalid initial state argument", 1);
+    if (numSteps < 0) error("Invalid number of steps argument", 1);
     return 1;
 }
 
-void error(char* message, int code) {
+/** 
+ * Displays error messages and exits program.
+**/
+void error(char *message, int code) {
     fprintf(stderr, "\n%s\n", message);
     exit(code);
 }
