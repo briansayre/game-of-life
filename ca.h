@@ -1,50 +1,68 @@
 #pragma once
 
 struct ca_data {
-    int length;
-    int numStates;
-    int wrap;
-    unsigned char intialState;
-    unsigned char *cells;
+    int height;
+    int width;
+    unsigned char wrap;
+    unsigned char qstate;
+    unsigned char dimension;
+    unsigned char **cadata;
 };
 
 /**
- *  The return value is a pointer to a ca_data structure initialized as such
+ *  Allocates space and creates a pointer for the CA
 **/
-struct ca_data *create1DCA(int length, unsigned char value);
+struct ca_data *create1DCA( int w, unsigned char qstate);
 
 /**
- * This function initializes a one-dimensional cellular automaton to 
- * the quiescent, all zero state. The 1DCA is stored as an array of unsigned char type.
+ *  Allocates space and creates a pointer for the CA
 **/
-void init1DCA(struct ca_data *data, int value);
+struct ca_data *create2DCA( int w, int h, unsigned char qstate); 
+
+/**
+ * This function initializes a cellular automaton to 
+ * the quiescent, all zero state. The CA is stored as an array of unsigned char type.
+**/
+void initCA( struct ca_data *ca, int state );
 
 /**
  * This function allows the client to set the specified cell to a specified state.
 **/
-int set1DCACell(struct ca_data *data, unsigned int index, unsigned char value);
+int set1DCACell( struct ca_data *ca, unsigned int x, unsigned char state); 
 
 /**
- * Gets the value of the CA given an index.
+ * This function allows the client to set the specified cell to a specified state.
 **/
-unsigned char get1DCACell(struct ca_data *data, unsigned int index);
+int set2DCACell( struct ca_data *ca, unsigned int x, unsigned int y, unsigned char state);
 
 /**
- * This function outputs the current state of the 1DCA. Each cell state is separated by 
+ * Gets the value of the 1DCA given an index.
+**/
+unsigned char get1DCACell(struct ca_data *ca, int x);
+
+/**
+ * Gets the value of the 2DCA given an index.
+**/
+unsigned char get2DCACell(struct ca_data *ca, int x, int y);
+
+
+/**
+ * This function outputs the current state of the CA. Each cell state is separated by 
  * a space and terminated with an end of line character (\n)..
 **/
-void display1DCA(struct ca_data *data);
+void displayCA( struct ca_data *ca );
 
 /**
  * Performs one step of the 1DCA given by the first parameter.  
  * The rule for how to perform the step is given in by the second parameter
 **/
-void stepCA(struct ca_data *data, unsigned char (*func)(struct ca_data *d, int index), int flag);
+void step1DCA( struct ca_data *ca, unsigned char (*rule)(struct ca_data *ca, int x));
 
 /**
- * Validates the command line arguments of main.c
+ * Performs one step of the 2DCA given by the first parameter.  
+ * The rule for how to perform the step is given in by the second parameter
 **/
-int validArgs(char *argv[]);
+void step2DCA( struct ca_data *ca, unsigned char (*rule)(struct ca_data *ca, int x, int y));
 
 /** 
  * Displays error messages and exits program.
