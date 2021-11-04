@@ -52,6 +52,7 @@ void initCA( struct ca_data *ca, int state ) {
     if (ca == NULL) error("NULL data argument", 1);
     for (int i = 0; i < ca->height; i++) {
         for (int j = 0; j < ca->width; j++) {
+            // set all to qstate
             ca->cadata[i][j] =  state + CHAR_INT_OFFSET;
         }
     }
@@ -96,8 +97,9 @@ unsigned char get1DCACell(struct ca_data *ca, int x) {
 **/
 unsigned char get2DCACell(struct ca_data *ca, int x, int y) {
     if (ca == NULL) error("NULL data argument", 1);
-    unsigned int xToGet = x;
-    unsigned int yToGet = y;
+    unsigned int xToGet = x; // x index I want to return
+    unsigned int yToGet = y; // y index I want to return
+    // adjust x and y for wrapping
     if (x < 0) {
         xToGet = ca->width + (x % ca->width);
     } else if (x > ca->width - 1){
@@ -113,7 +115,7 @@ unsigned char get2DCACell(struct ca_data *ca, int x, int y) {
 
 /**
  * This function outputs the current state of the 1DCA. Each cell state is separated by 
- * a space and terminated with an end of line character (\n)..
+ * a space and terminated with an end of line character (\n).
 **/
 void displayCA( struct ca_data *ca ) { 
     int blocks = 0;
@@ -163,11 +165,13 @@ void step2DCA( struct ca_data *ca, unsigned char (*rule)(struct ca_data *ca, int
     if (nextStep == NULL) error("Failed to initialize nextStep", 1);
     for (int i = 0; i < ca->height; i++) {
         for (int j = 0; j < ca->width; j++) {
-            nextStep[i][j] = rule(ca, j, 
-            i);
+            nextStep[i][j] = rule(ca, j, i); // apply rule to each index
         }
     }
-    free(ca->cadata);  // free old cadata
+    // free old cadata
+    for(int i = 0; i < ca->height; i++)
+        free(ca->cadata[i]); 
+    free(ca->cadata);
     ca->cadata = nextStep;
 }
 

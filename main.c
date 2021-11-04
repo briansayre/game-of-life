@@ -7,6 +7,8 @@
 unsigned char gameOfLife(struct ca_data *ca, int x, int y);
 
 int main(int argc, char *argv[]) {
+
+    // check arguments and 
     if (argc != 3) error("Incorrect number of arguments", 1);
     int dimension = atoi(argv[1]);
     if (dimension != 2) error("Unsupported dimensions", 1);;
@@ -15,25 +17,18 @@ int main(int argc, char *argv[]) {
     FILE* f = fopen(file, "r");
     if (f == NULL) error("Unable to open file", 1);;
     fscanf(f, "%d %d", &height, &width);
+    if (height < 0 || width < 0) error("Invalid height and/or width", 1);
 
     // create the ca
     struct ca_data *c;
-    if (dimension == 1) {
-        c = create1DCA( width, '0');
-    } else if (dimension == 2) {
-        c = create2DCA( width, height, '0');
-    }
+    c = create2DCA(width, height, '0');
 
-    // read in the intial state
+    // read in the intial state from file
     unsigned char state = -1;
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             fscanf(f, " %c", &state);
-            if (dimension == 1) {
-                set1DCACell(c, j, state);
-            } else if (dimension == 2) {
-                set2DCACell(c, j, i, state);
-            }
+            set2DCACell(c, j, i, state);
         }
     }
 
@@ -59,7 +54,7 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-    GOL RULES:
+    GoL RULES:
     Any live cell with fewer than two live neighbours dies, as if by underpopulation.
     Any live cell with two or three live neighbours lives on to the next generation.
     Any live cell with more than three live neighbours dies, as if by overpopulation.
