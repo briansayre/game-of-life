@@ -1,7 +1,7 @@
 # Project 2B - Brian Sayre
  This program allows the client to simulate a two-dimensional cellular automaton and display each generation of the 2DCA using the CellularAutomaton C++ class, the GraphicsClient C++ class, and the GraphicsServer.jar file.
 
-## Compiling and running main.cpp
+## Compiling and running casimulator.cpp
 1. In the project's root directory run the following command:  
 ```$ java -jar GraphicsServer.jar```  
 This will start the graphics server on port 7777 on localhost.
