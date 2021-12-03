@@ -6,7 +6,7 @@
 ```$ java -jar GraphicsServer.jar```  
 This will start the graphics server on port 7777 on localhost.
 
-2. Now we will compile and run main.cpp using the following command:  
+2. Now we will compile and run casimulator.cpp using the following command:  
 ```$ make```    
 That will start a 2DCA simulation window. To change the initial state/file to read from change the file name on line 3 of the make file.  
   
