@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+
+#include "Message.h"
 using namespace std;
 
 /**
@@ -130,6 +132,22 @@ class GraphicsClient {
      * send the redraw (repaint) signal to the attached graphics server
      */
     void repaint();
+
+    /**
+     * Request file from server
+     */
+    void requestFile();
+
+    /**
+     * Recieves the messages from the server
+     * @return Message message object containg the message info
+     */
+    Message readMessage();
+
+    /**
+     * Draws the buttons on the screen to start
+     */
+    void drawButtons();
 
    private:
     /**

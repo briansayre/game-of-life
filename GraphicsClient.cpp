@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -10,6 +11,7 @@
 using namespace std;
 
 #include "GraphicsClient.h"
+#include "Message.h"
 
 // GC constructor
 GraphicsClient::GraphicsClient(string url, int port) {
@@ -34,6 +36,10 @@ GraphicsClient::GraphicsClient(string url, int port) {
         fprintf(stderr, "Connection Failed \n");
         exit(1);
     }
+    setBackgroundColor(214, 217, 223);
+    clear();
+    drawButtons();
+    repaint();
 }
 
 // GC copy constructor
@@ -50,7 +56,7 @@ GraphicsClient::~GraphicsClient() {
     this->setDrawingColor(250, 250, 250);
     this->drawString(10, 20, "Socket closed. Beep. Boop.");
     this->repaint();
-    close(sockfd); /// close socket
+    close(sockfd);  /// close socket
 }
 
 // GC operator= method
@@ -165,7 +171,7 @@ void GraphicsClient::drawRectangle(int x, int y, int w, int h) {
     send(sockfd, message, 22, 0);
 }
 
-// draws a filled rectangle at the position 
+// draws a filled rectangle at the position
 void GraphicsClient::fillRectangle(int x, int y, int w, int h) {
     char message[22];
     message[0] = 0xFF;              // SYNC
@@ -221,7 +227,7 @@ void GraphicsClient::clearRectangle(int x, int y, int w, int h) {
     send(sockfd, message, 22, 0);
 }
 
-// draws an oval at the specified location 
+// draws an oval at the specified location
 void GraphicsClient::drawOval(int x, int y, int w, int h) {
     char message[22];
     message[0] = 0xFF;              // SYNC
@@ -249,7 +255,7 @@ void GraphicsClient::drawOval(int x, int y, int w, int h) {
     send(sockfd, message, 22, 0);
 }
 
-// draws a filled oval at the specified location 
+// draws a filled oval at the specified location
 void GraphicsClient::fillOval(int x, int y, int w, int h) {
     char message[22];
     message[0] = 0xFF;              // SYNC
@@ -342,4 +348,51 @@ void GraphicsClient::repaint() {
     message[4] = 0x01;  // Length
     message[5] = 0x0C;  // Function
     send(sockfd, message, 6, 0);
+}
+
+// Request file from server
+void GraphicsClient::requestFile() {
+    char message[6];
+    message[0] = 0xFF;  // SYNC
+    message[1] = 0x00;  // Length
+    message[2] = 0x00;  // Length
+    message[3] = 0x00;  // Length
+    message[4] = 0x01;  // Length
+    message[5] = 0x0E;  // Function
+    send(sockfd, message, 6, 0);
+}
+
+// Draws the buttons on the screen to start
+void GraphicsClient::drawButtons() {
+    int buttonHeight = 35;
+    int buttonMargin = 15;
+    string labels[11] = {"   Step", "   Run", "  Pause", "  Reset", " Random", "    Load", "     Quit", "Select size:", "   40x40", "150X150", "600X600"};
+    for (int i = 0; i < 11; i++) {
+        if (i != 7) {
+            setDrawingColor(100, 100, 100);
+            fillRectangle(650 + 3, (i * (buttonHeight + buttonMargin)) + 25 + 3, 100, buttonHeight);
+            setDrawingColor(250, 250, 250);
+            fillRectangle(650, (i * (buttonHeight + buttonMargin)) + 25, 100, buttonHeight);
+        }
+        setDrawingColor(0, 0, 0);
+        drawString(675, (i * (buttonHeight + buttonMargin)) + 48, labels[i]);
+    }
+    repaint();
+}
+
+// Recieves the messages from the server
+Message GraphicsClient::readMessage() {
+    char message[100];
+    int count;
+    ioctl(sockfd, FIONREAD, &count);
+    if (count > 20) {
+        size_t bytesRead = read(sockfd, message, count);
+        Message mObj = Message();
+        mObj.parseMessage(message, bytesRead);
+        if (mObj.getFunction() == 5) {
+            requestFile();
+        }
+        return mObj;
+    }
+    return Message();
 }

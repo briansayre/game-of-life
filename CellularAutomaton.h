@@ -62,6 +62,34 @@ class CellularAutomaton {
      */
     void setCell(int x, int y, unsigned char c);
 
+    /**
+     * Set running to r
+     * @param r new value of running
+     */
+    void setRunning(int r);
+
+    /**
+     * Returns running
+     */
+    int getRunning();
+
+    /**
+     * Resets ca to initial state
+     */
+    void reset();
+
+    /**
+     * Sets ca to random state
+     */
+    void random();
+
+    /**
+     * Toggles the state of a cell given mouse coordinates
+     * @param x mouse x position
+     * @param y mouse y position
+     */
+    void toggleCell(int x, int y);
+
    private:
     /**
      * Height of the 2DCA
@@ -82,4 +110,14 @@ class CellularAutomaton {
      * 2DCA data
      */
     unsigned char** cadata;
+
+    /**
+     * 2DCA data
+     */
+    unsigned char** cadataInitial;
+
+    /**
+     * Indicates if the CA is running GOL
+     */
+    int running;
 };
