@@ -67,6 +67,14 @@ void Message::parseMessage(char* m, int length) {
             unsigned char c = (m[j] << 4) | (m[j + 1] << 0);
             filePath.push_back(c);
         }
+        string delimiter = "\\";
+
+        size_t pos = 0;
+        string token;
+        while ((pos = filePath.find(delimiter)) != string::npos) {
+            token = filePath.substr(0, pos);
+            filePath.erase(0, pos + delimiter.length());
+        }
         message = filePath;
         function = 10;
     } else {

@@ -1,6 +1,6 @@
 CFLAGS = -O
 CC = g++
-FILE = 50by50.txt
+FILE = starter.txt
 
 all:	casimulator.o GraphicsClient.o CellularAutomaton.o Message.o
 	$(CC) $(CFLAGS) -o casimulator.out casimulator.o GraphicsClient.o CellularAutomaton.o Message.o

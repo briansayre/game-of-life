@@ -209,7 +209,7 @@ void CellularAutomaton::reset() {
 void CellularAutomaton::random() {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (rand() % 10 == 0) {
+            if (rand() % 5 == 0) {
                 cadata[i][j] = '1';
                 cadataInitial[i][j] = '1';
             } else {

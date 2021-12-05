@@ -39,8 +39,10 @@ int main(int argc, char* argv[]) {
             ca->display(*gc);
         } else if (function == 1) { // run
             ca->setRunning(1);
+            ca->display(*gc);
         } else if (function == 2) { // pause
             ca->setRunning(0);
+            ca->display(*gc);
         } else if (function == 3) { // reset
             ca->reset();
             ca->display(*gc);
@@ -50,13 +52,13 @@ int main(int argc, char* argv[]) {
         } else if (function == 6) { // quit
             break;
         } else if (function == 7) { // 40 by 40
-            ca = new CellularAutomaton("40by40.txt", 0);
+            ca = new CellularAutomaton("25by25.txt", 0);
             ca->display(*gc);
         } else if (function == 8) { // 150 by 150
-            ca = new CellularAutomaton("150by150.txt", 0);
+            ca = new CellularAutomaton("50by50.txt", 0);
             ca->display(*gc);
         } else if (function == 9) { // 600 by 600
-            ca = new CellularAutomaton("600by600.txt", 0);
+            ca = new CellularAutomaton("75by75.txt", 0);
             ca->display(*gc);
         } else if (function == 10) { // load 
             ca = new CellularAutomaton(m.getMessage(), 0);

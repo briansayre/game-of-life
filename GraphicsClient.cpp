@@ -366,7 +366,7 @@ void GraphicsClient::requestFile() {
 void GraphicsClient::drawButtons() {
     int buttonHeight = 35;
     int buttonMargin = 15;
-    string labels[11] = {"   Step", "   Run", "  Pause", "  Reset", " Random", "    Load", "     Quit", "Select size:", "   40x40", "150X150", "600X600"};
+    string labels[11] = {"   Step", "   Run", "  Pause", "  Reset", " Random", "    Load", "     Quit", "Select size:", "   25x25", "   50X50", "   75x75"};
     for (int i = 0; i < 11; i++) {
         if (i != 7) {
             setDrawingColor(100, 100, 100);
