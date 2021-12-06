@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 #include "Message.h"
@@ -6,7 +7,7 @@ using namespace std;
 // default constructor
 Message::Message() {
     function = -1;
-    message = " ";
+    filePath = " ";
     mouseX = 0;
     mouseY = 0;
 }
@@ -14,7 +15,7 @@ Message::Message() {
 // draws a string of characters on the display
 Message::Message(int f, string m) {
     function = f;
-    message = m;
+    filePath = m;
     mouseX = 0;
     mouseY = 0;
 }
@@ -29,14 +30,14 @@ void Message::setFunction(int f) {
     function = f;
 }
 
-// return message
-string Message::getMessage() {
-    return message;
+// return filePath
+string Message::getFilePath() {
+    return filePath;
 }
 
-// set message
-void Message::setMessage(string m) {
-    message = m;
+// set filePath
+void Message::setFilePath(string f) {
+    filePath = f;
 }
 
 // return mouse y position
@@ -61,23 +62,21 @@ void Message::setMouseX(int x) {
 
 // Parses raw message to get function and file path
 void Message::parseMessage(char* m, int length) {
-    if (m[5] + 0 == 10) {
-        string filePath = "";
+    if (m[5] + 0 == 10) {       // got a file message
+        string mfilePath = "";  // set the file path
         for (int j = 6; j < length; j += 2) {
             unsigned char c = (m[j] << 4) | (m[j + 1] << 0);
-            filePath.push_back(c);
+            mfilePath.push_back(c);
         }
-        string delimiter = "\\";
-
-        size_t pos = 0;
-        string token;
-        while ((pos = filePath.find(delimiter)) != string::npos) {
-            token = filePath.substr(0, pos);
-            filePath.erase(0, pos + delimiter.length());
+        string file = "";
+        for (int i = mfilePath.size() - 1; i >= 0; i--) {
+            if (mfilePath[i] == '\\' || mfilePath[i] == '/') break;
+            file = mfilePath[i] + file;
         }
-        message = filePath;
+        filePath = file;
+        cout << "Openning: " << filePath << endl;
         function = 10;
-    } else {
+    } else {  // got a click
         int type = m[6] + 0;
         if (type == 1) {
             mouseX = (m[7] * 4096) + (m[8] * 256) + (m[9] * 16) + m[10];
@@ -91,28 +90,41 @@ void Message::parseMessage(char* m, int length) {
 int Message::decideFunction(int x, int y) {
     if (x >= 650 && x <= 750) {
         if (y >= 25 && y <= 60) {  // step
+            cout << "Step" << endl;
             return 0;
         } else if (y >= 75 && y <= 110) {  // run
+            cout << "Run" << endl;
             return 1;
         } else if (y >= 125 && y <= 160) {  // pause
+            cout << "Pause" << endl;
             return 2;
         } else if (y >= 175 && y <= 210) {  // reset
+            cout << "Reset" << endl;
             return 3;
         } else if (y >= 225 && y <= 260) {  // random
+            cout << "Random" << endl;
             return 4;
         } else if (y >= 275 && y <= 310) {  // load
+            cout << "Load" << endl;
             return 5;
         } else if (y >= 325 && y <= 360) {  // quit
+            cout << "Quit" << endl;
             return 6;
+        } else if (y >= 375 && y <= 410) {  // clear
+            cout << "Clear" << endl;
+            return 12;
         } else if (y >= 425 && y <= 460) {  // 1
+            cout << "New 25 by 25" << endl;
             return 7;
         } else if (y >= 475 && y <= 510) {  // 2
+            cout << "New 50 by 50" << endl;
             return 8;
         } else if (y >= 525 && y <= 560) {  // 3
+            cout << "New 75 by 75" << endl;
             return 9;
         }
     } else {
-        return 11;
+        return 11;  // click on screen
     }
-    return -1;
+    return -1;  // woah
 }

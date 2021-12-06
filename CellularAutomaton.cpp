@@ -155,9 +155,9 @@ void CellularAutomaton::display(GraphicsClient& gc) {
 
     string status = "Running: " + to_string(running) + ", width: " + to_string(width) + ", height: " + to_string(height);
     gc.setDrawingColor(214, 217, 223);
-    gc.fillRectangle(607, 575, 200, 30);
+    gc.fillRectangle(615, 575, 200, 30);
     gc.setDrawingColor(0, 0, 0);
-    gc.drawString(607, 595, status);
+    gc.drawString(615, 595, status);
     gc.repaint();  // refresh display
 }
 
@@ -205,6 +205,15 @@ void CellularAutomaton::reset() {
     }
 }
 
+// Resets ca to 0
+void CellularAutomaton::clear() {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            cadata[i][j] = '0';
+        }
+    }
+}
+
 // Sets ca to random state
 void CellularAutomaton::random() {
     for (int i = 0; i < height; i++) {
@@ -241,6 +250,7 @@ void CellularAutomaton::toggleCell(int mx, int my) {
     int cellX = mx / (cellWidth + cellGap);
     int cellY = my / (cellWidth + cellGap);
     if (cellY < height && cellX < width) {
+        cout << "Toggling cell: (" << cellX << ", " << cellY << ")" << endl;
         unsigned char cur = getCell(cellX, cellY);
         if (cur == '0') setCell(cellX, cellY, '1');
         if (cur == '1') setCell(cellX, cellY, '0');

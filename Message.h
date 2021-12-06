@@ -13,7 +13,7 @@ class Message {
     /**
      * draws a string of characters on the display
      * @param f function of message
-     * @param m message itself
+     * @param m FilePath itself
      */
     Message(int f, string m);
 
@@ -29,15 +29,15 @@ class Message {
     void setFunction(int f);
 
     /**
-     * return message
+     * return FilePath
      */
-    string getMessage();
+    string getFilePath();
 
     /**
-     * set message
-	 * @param m message
+     * set FilePath
+	 * @param f FilePath
      */
-    void setMessage(string m);
+    void setFilePath(string f);
 
     /**
      * Parses raw message to get function and file path
@@ -92,7 +92,7 @@ class Message {
     int mouseY;
 
     /**
-     * message / file path
+     * file path
      */
-    string message;
+    string filePath;
 };

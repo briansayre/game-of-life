@@ -31,49 +31,41 @@ int main(int argc, char* argv[]) {
     ca->display(*gc);
 
     while (1) {
-        Message m = gc->readMessage(); // get message from server
+        Message m = gc->readMessage();  // get message from server
         int function = m.getFunction();
-        
-        if (function == 0 && ca->getRunning() == 0) { // step
+
+        if (function == 0 && ca->getRunning() == 0) {  // step
             ca->step(gameOfLife);
-            ca->display(*gc);
-        } else if (function == 1) { // run
+        } else if (function == 1) {  // run
             ca->setRunning(1);
-            ca->display(*gc);
-        } else if (function == 2) { // pause
+        } else if (function == 2) {  // pause
             ca->setRunning(0);
-            ca->display(*gc);
-        } else if (function == 3) { // reset
+        } else if (function == 3) {  // reset
             ca->reset();
-            ca->display(*gc);
-        } else if (function == 4) { // random
+        } else if (function == 4) {  // random
             ca->random();
-            ca->display(*gc);
-        } else if (function == 6) { // quit
+        } else if (function == 6) {  // quit
             break;
-        } else if (function == 7) { // 40 by 40
+        } else if (function == 7) {  // 25 by 25
             ca = new CellularAutomaton("25by25.txt", 0);
-            ca->display(*gc);
-        } else if (function == 8) { // 150 by 150
+        } else if (function == 8) {  // 50 by 50
             ca = new CellularAutomaton("50by50.txt", 0);
-            ca->display(*gc);
-        } else if (function == 9) { // 600 by 600
+        } else if (function == 9) {  // 75 by 75
             ca = new CellularAutomaton("75by75.txt", 0);
-            ca->display(*gc);
-        } else if (function == 10) { // load 
-            ca = new CellularAutomaton(m.getMessage(), 0);
-            ca->display(*gc);
-        } else if (function == 11) { // toggling cell on ca
+        } else if (function == 10) {  // load
+            ca = new CellularAutomaton(m.getFilePath(), 0);
+        } else if (function == 11) {  // toggling cell on ca
             ca->toggleCell(m.getMouseX(), m.getMouseY());
-            ca->display(*gc);
+        } else if (function == 12) {  // clear
+            ca->clear();
         }
 
-        if (ca->getRunning() == 1) {// step if running
+        if (ca->getRunning() == 1) {  // step if running
             ca->step(gameOfLife);
-            ca->display(*gc);
         }
 
-        nanosleep(&request, &remaining); // sleep 100 ms
+        ca->display(*gc);
+        nanosleep(&request, &remaining);  // sleep 100 ms
     }
 
     delete ca;

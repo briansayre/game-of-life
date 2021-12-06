@@ -79,6 +79,11 @@ class CellularAutomaton {
     void reset();
 
     /**
+     * Resets ca to 0
+     */
+    void clear();
+
+    /**
      * Sets ca to random state
      */
     void random();

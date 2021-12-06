@@ -366,14 +366,12 @@ void GraphicsClient::requestFile() {
 void GraphicsClient::drawButtons() {
     int buttonHeight = 35;
     int buttonMargin = 15;
-    string labels[11] = {"   Step", "   Run", "  Pause", "  Reset", " Random", "    Load", "     Quit", "Select size:", "   25x25", "   50X50", "   75x75"};
+    string labels[11] = {"   Step", "   Run", "  Pause", "  Reset", " Random", "    Load", "     Quit", " Clear", "New 25x25", "New 50X50", "New 75x75"};
     for (int i = 0; i < 11; i++) {
-        if (i != 7) {
-            setDrawingColor(100, 100, 100);
-            fillRectangle(650 + 3, (i * (buttonHeight + buttonMargin)) + 25 + 3, 100, buttonHeight);
-            setDrawingColor(250, 250, 250);
-            fillRectangle(650, (i * (buttonHeight + buttonMargin)) + 25, 100, buttonHeight);
-        }
+        setDrawingColor(150, 150, 150);
+        fillRectangle(650 + 3, (i * (buttonHeight + buttonMargin)) + 25 + 3, 100, buttonHeight);
+        setDrawingColor(250, 250, 250);
+        fillRectangle(650, (i * (buttonHeight + buttonMargin)) + 25, 100, buttonHeight);
         setDrawingColor(0, 0, 0);
         drawString(675, (i * (buttonHeight + buttonMargin)) + 48, labels[i]);
     }
