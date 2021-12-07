@@ -74,7 +74,6 @@ void Message::parseMessage(char* m, int length) {
             file = mfilePath[i] + file;
         }
         filePath = file;
-        cout << "Openning: " << filePath << endl;
         function = 10;
     } else {  // got a click
         int type = m[6] + 0;
@@ -90,37 +89,26 @@ void Message::parseMessage(char* m, int length) {
 int Message::decideFunction(int x, int y) {
     if (x >= 650 && x <= 750) {
         if (y >= 25 && y <= 60) {  // step
-            cout << "Step" << endl;
             return 0;
         } else if (y >= 75 && y <= 110) {  // run
-            cout << "Run" << endl;
             return 1;
         } else if (y >= 125 && y <= 160) {  // pause
-            cout << "Pause" << endl;
             return 2;
         } else if (y >= 175 && y <= 210) {  // reset
-            cout << "Reset" << endl;
             return 3;
         } else if (y >= 225 && y <= 260) {  // random
-            cout << "Random" << endl;
             return 4;
         } else if (y >= 275 && y <= 310) {  // load
-            cout << "Load" << endl;
             return 5;
         } else if (y >= 325 && y <= 360) {  // quit
-            cout << "Quit" << endl;
             return 6;
         } else if (y >= 375 && y <= 410) {  // clear
-            cout << "Clear" << endl;
             return 12;
         } else if (y >= 425 && y <= 460) {  // 1
-            cout << "New 25 by 25" << endl;
             return 7;
         } else if (y >= 475 && y <= 510) {  // 2
-            cout << "New 50 by 50" << endl;
             return 8;
         } else if (y >= 525 && y <= 560) {  // 3
-            cout << "New 75 by 75" << endl;
             return 9;
         }
     } else {

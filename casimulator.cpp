@@ -35,28 +35,39 @@ int main(int argc, char* argv[]) {
         int function = m.getFunction();
 
         if (function == 0 && ca->getRunning() == 0) {  // step
+            cout << "Step" << endl;
             ca->step(gameOfLife);
         } else if (function == 1) {  // run
+            cout << "Run" << endl;
             ca->setRunning(1);
         } else if (function == 2) {  // pause
+            cout << "Pause" << endl;
             ca->setRunning(0);
         } else if (function == 3) {  // reset
+            cout << "Reset" << endl;
             ca->reset();
         } else if (function == 4) {  // random
+            cout << "Random" << endl;
             ca->random();
         } else if (function == 6) {  // quit
+            cout << "Quit" << endl;
             break;
         } else if (function == 7) {  // 25 by 25
+            cout << "New 25 by 25" << endl;
             ca = new CellularAutomaton("25by25.txt", 0);
         } else if (function == 8) {  // 50 by 50
+            cout << "New 50 by 50" << endl;
             ca = new CellularAutomaton("50by50.txt", 0);
         } else if (function == 9) {  // 75 by 75
+            cout << "New 75 by 75" << endl;
             ca = new CellularAutomaton("75by75.txt", 0);
         } else if (function == 10) {  // load
+            cout << "Openning: " << m.getFilePath() << endl;
             ca = new CellularAutomaton(m.getFilePath(), 0);
         } else if (function == 11) {  // toggling cell on ca
             ca->toggleCell(m.getMouseX(), m.getMouseY());
         } else if (function == 12) {  // clear
+            cout << "Clear" << endl;
             ca->clear();
         }
 

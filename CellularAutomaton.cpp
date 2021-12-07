@@ -152,12 +152,12 @@ void CellularAutomaton::display(GraphicsClient& gc) {
             }
         }
     }
-
-    string status = "Running: " + to_string(running) + ", width: " + to_string(width) + ", height: " + to_string(height);
+    string runningStatus = running ? "Running" : "Paused";
+    string status = runningStatus + ", width: " + to_string(width) + ", height: " + to_string(height);
     gc.setDrawingColor(214, 217, 223);
-    gc.fillRectangle(615, 575, 200, 30);
+    gc.fillRectangle(625, 575, 200, 30);
     gc.setDrawingColor(0, 0, 0);
-    gc.drawString(615, 595, status);
+    gc.drawString(625, 595, status);
     gc.repaint();  // refresh display
 }
 
