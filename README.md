@@ -1,4 +1,4 @@
-# Project 2B - Brian Sayre
+# Conway's Game of Life - Brian Sayre
  This program allows the client to simulate a two-dimensional cellular automaton and display each generation of the 2DCA using the CellularAutomaton C++ class, the GraphicsClient C++ class, and the GraphicsServer.jar file.
 
 ## Compiling and running casimulator.cpp
